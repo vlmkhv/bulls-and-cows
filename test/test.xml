@@ -1,2 +1,42 @@
 <test>
-</test>    
+    <test-case id="1">
+        <q>/start</q>
+        <a state = "/Start"/>
+    </test-case>
+    <test-case id="2">
+        <q>/start</q>
+        <a state = "/Start"/>
+        <q>12345</q>
+        <a state = "/NoMatch"/>
+        <q>1221</q>
+        <a state = "/NoMatch"/>
+        <q>0123</q>
+        <a state = "/NoMatch"/>
+    </test-case>
+    <test-case id="3">
+        <q>/NoMatch</q>
+        <a>Пожалуйста, введи четырёхзначное число с неповторяющимися цифрами.</a>
+    </test-case>
+    <test-case id="4">
+        <q>/start</q>
+        <a>Игра "Быки и коровы". Я загадал четырёхзначное число с неповторяющимися цифрами. Попробуй угадать!</a>
+        <context var="session">
+            {
+                "secret": "1234"
+            }
+        </context>    
+        <q>5678</q>
+        <a>Быки: 0, коровы: 0</a>
+        <q>4321</q>
+        <a>Быки: 0, коровы: 4</a>
+        <q>1423</q>
+        <a>Быки: 1, коровы: 3</a>
+        <q>1324</q>
+        <a>Быки: 2, коровы: 2</a>
+        <q>1235</q>
+        <a>Быки: 3, коровы: 0</a>
+        <q>1234</q>
+        <a>Ты угадал!</a>
+        <a state = "/Start"/>
+    </test-case>
+</test>

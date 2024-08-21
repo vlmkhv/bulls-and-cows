@@ -1,23 +1,32 @@
-require: slotfilling/slotFilling.sc
-  module = sys.zb-common
+require: bullsAndCows.js
+
 theme: /
 
     state: Start
         q!: $regex</start>
-        a: Начнём.
-
-    state: Hello
-        intent!: /привет
-        a: Привет привет
-
-    state: Bye
-        intent!: /пока
-        a: Пока пока
+        script:
+            $session.secret = generateSecretNumber();
+        a: Игра "Быки и коровы". Я загадал четырёхзначное число с неповторяющимися цифрами. Попробуй угадать!
+        
+    state: Guess
+        q!: $regex<^[1-9][0-9]{3}$>
+        script:
+            var guess = $request.query;
+            if (checkUnique(guess)) {
+                var res = checkGuess($session.secret, guess);
+                if (res.bulls === 4) {
+                    $reactions.answer("Ты угадал!");
+                    $reactions.transition("/Start");
+                } else {
+                    //$reactions.answer($session.secret);
+                    $reactions.answer("Быки: " + res.bulls + ", коровы: " + res.cows);
+                }
+            }
+            else {
+                $reactions.transition("/NoMatch");
+            }
+            
 
     state: NoMatch
         event!: noMatch
-        a: Я не понял. Вы сказали: {{$request.query}}
-
-    state: Match
-        event!: match
-        a: {{$context.intent.answer}}
+        a: Пожалуйста, введи четырёхзначное число с неповторяющимися цифрами.
