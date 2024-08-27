@@ -1,42 +1,76 @@
 <test>
-    <test-case id="1">
+    
+    <test-case id="start">
         <q>/start</q>
         <a state = "/Start"/>
     </test-case>
-    <test-case id="2">
+    
+    <test-case id="rules">
         <q>/start</q>
         <a state = "/Start"/>
-        <q>12345</q>
-        <a state = "/NoMatch"/>
-        <q>1221</q>
-        <a state = "/NoMatch"/>
-        <q>0123</q>
-        <a state = "/NoMatch"/>
+        <q>Правила</q>
+        <a state = "/Rules"/>
     </test-case>
-    <test-case id="3">
-        <q>/NoMatch</q>
-        <a>Пожалуйста, введи четырёхзначное число с неповторяющимися цифрами.</a>
-    </test-case>
-    <test-case id="4">
+    
+    <test-case>
         <q>/start</q>
-        <a>Игра "Быки и коровы". Я загадал четырёхзначное число с неповторяющимися цифрами. Попробуй угадать!</a>
+        <a state = "/Start"/>
         <context var="session">
             {
                 "secret": "1234"
             }
         </context>    
+        <q>0123</q>
+        <a state = "/NoMatch"/>
+        <q>123</q>
+        <a>Число слишком короткое!</a>
+        <a state = "/NoMatch"/>
+        <q>12345</q>
+        <a>Число слишком длинное!</a>
+        <a state = "/NoMatch"/>
+        <q>1221</q>
+        <a>Цифры повторяются!</a>
+        <a state = "/NoMatch"/>
+        <q>abcd</q>
+        <a state = "/NoMatch"/>
         <q>5678</q>
-        <a>Быки: 0, коровы: 0</a>
+        <a>0 быков, 0 коров</a>
+        <q>9021</q>
+        <a>0 быков, 2 коровы</a>
         <q>4321</q>
-        <a>Быки: 0, коровы: 4</a>
+        <a>0 быков, 4 коровы</a>
         <q>1423</q>
-        <a>Быки: 1, коровы: 3</a>
+        <a>1 бык, 3 коровы</a>
         <q>1324</q>
-        <a>Быки: 2, коровы: 2</a>
+        <a>2 быка, 2 коровы</a>
         <q>1235</q>
-        <a>Быки: 3, коровы: 0</a>
+        <a>3 быка, 0 коров</a>
         <q>1234</q>
-        <a>Ты угадал!</a>
+        <a>Ты угадал за 6 ходов!</a>
         <a state = "/Start"/>
     </test-case>
+    
+    <test-case id="give up 0">
+        <q>/start</q>
+        <a state = "/Start"/>
+        <q>Сдаться</q>
+        <a state = "/GiveUp"/>
+        <a state = "/Start"/>
+    </test-case>
+    
+    <test-case id="give up 1">
+        <q>/start</q>
+        <a state = "/Start"/>
+        <context var="session">
+            {
+                "secret": "1234"
+            }
+        </context>
+        <q>5678</q>
+        <a>0 быков, 0 коров</a>
+        <q>Сдаться</q>
+        <a state = "/GiveUp"/>
+        <a state = "/Start"/>
+    </test-case>
+    
 </test>

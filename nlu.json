@@ -1,7 +1,7 @@
 {
   "project" : {
-    "id" : "byki_i_korovy-1000165671-vST",
-    "name" : "byki_i_korovy-1000165671-vST",
+    "id" : "byki_i_korovy-1000165674-iiR",
+    "name" : "byki_i_korovy-1000165674-iiR",
     "folder" : "/platform"
   },
   "settings" : {
@@ -23,7 +23,7 @@
   },
   "intents" : [ ],
   "entities" : [ ],
-  "enabledSystemEntities" : [ "duckling.number", "duckling.time", "duckling.duration", "duckling.phone-number", "duckling.email", "duckling.url" ],
+  "enabledSystemEntities" : [ "duckling.number" ],
   "spellerDictionary" : [ ],
   "systemEntities" : [ {
     "name" : "mystem.geo",
@@ -89,7 +89,7 @@
   }, {
     "name" : "duckling.time",
     "version" : "v2",
-    "enabled" : true
+    "enabled" : false
   }, {
     "name" : "duckling.date",
     "version" : "v2",
@@ -101,19 +101,19 @@
   }, {
     "name" : "duckling.duration",
     "version" : "v2",
-    "enabled" : true
+    "enabled" : false
   }, {
     "name" : "duckling.phone-number",
     "version" : "v2",
-    "enabled" : true
+    "enabled" : false
   }, {
     "name" : "duckling.email",
     "version" : "v2",
-    "enabled" : true
+    "enabled" : false
   }, {
     "name" : "duckling.url",
     "version" : "v2",
-    "enabled" : true
+    "enabled" : false
   }, {
     "name" : "duckling.interval",
     "version" : "v2",

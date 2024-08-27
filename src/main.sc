@@ -6,27 +6,57 @@ theme: /
         q!: $regex</start>
         script:
             $session.secret = generateSecretNumber();
-        a: Игра "Быки и коровы". Я загадал четырёхзначное число с неповторяющимися цифрами. Попробуй угадать!
-        
+            $session.turns = 0;
+        a: Игра "Быки и коровы". Я загадал четырёхзначное число с неповторяющимися цифрами. Число не может начинаться с 0.\nПопробуй угадать!
+        buttons:
+            "Правила" -> /Rules
+            "Сдаться" -> /GiveUp
+
+    state: Rules
+        a: Попробуй угадать число, а я сообщу в ответ, сколько цифр угадано без совпадения с их позициями (количество коров) и сколько угадано вплоть до позиции в тайном числе (количество быков).\n
+           *Например*, если я задумал число «3219», то попытка «2310» даст результат: две «коровы» (две цифры: «2» и «3» — угаданы на неверных позициях) и один «бык» (одна цифра «1» угадана вплоть до позиции).
+    
     state: Guess
-        q!: $regex<^[1-9][0-9]{3}$>
+        
+        q: $regex<^[1-9][0-9]{0,}$>
+        
         script:
             var guess = $request.query;
-            if (checkUnique(guess)) {
-                var res = checkGuess($session.secret, guess);
-                if (res.bulls === 4) {
-                    $reactions.answer("Ты угадал!");
-                    $reactions.transition("/Start");
-                } else {
-                    //$reactions.answer($session.secret);
-                    $reactions.answer("Быки: " + res.bulls + ", коровы: " + res.cows);
-                }
-            }
-            else {
-                $reactions.transition("/NoMatch");
+            var errorMessage = null;
+            
+            if (guess.length < 4) {
+                errorMessage = "Число слишком короткое!";
+            } else if (guess.length > 4) {
+                errorMessage = "Число слишком длинное!";
+            } else if (_.uniq(guess).join('') !== guess) {
+                errorMessage = "Цифры повторяются!";
             }
             
+            if (errorMessage) {
+                $reactions.answer(errorMessage);
+                $reactions.transition("/NoMatch");
+            } else {
+                
+                var res = checkGuess($session.secret, guess);
+                
+                if (res.bulls === 4) {
+                    $reactions.answer("Ты угадал за " + $session.turns + " " + $nlp.conform("ход", $session.turns) + "!");
+                    $reactions.transition("/Start");
+                } else {
+                    $reactions.answer(res.bulls + " " + $nlp.conform("бык", res.bulls) + ", " + res.cows + " " + $nlp.conform("корова", res.cows));
+                    $session.turns += 1;
+                }
+            }
+        buttons:
+            "Правила" -> /Rules
+            "Сдаться" -> /GiveUp
+        
 
-    state: NoMatch
+    state: GiveUp
+        a: Ну что ж, начнём заново! Было загадано число {{$session.secret}}
+        go!: /Start
+    
+
+    state: NoMatch || noContext = true
         event!: noMatch
-        a: Пожалуйста, введи четырёхзначное число с неповторяющимися цифрами.
+        a: Пожалуйста, введи четырёхзначное число с неповторяющимися цифрами. Число не может начинаться с 0.
