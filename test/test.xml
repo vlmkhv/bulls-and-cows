@@ -12,7 +12,7 @@
         <a state = "/Rules"/>
     </test-case>
     
-    <test-case>
+    <test-case id="guess 0">
         <q>/start</q>
         <a state = "/Start"/>
         <context var="session">
@@ -46,7 +46,31 @@
         <q>1235</q>
         <a>3 быка, 0 коров</a>
         <q>1234</q>
-        <a>Ты угадал за 6 ходов!</a>
+        <a>Ты угадал за 7 ходов! Использовано подсказок: 0</a>
+        <a state = "/Start"/>
+    </test-case>
+    
+    <test-case id="guess 1">
+        <q>/start</q>
+        <a state = "/Start"/>
+        <context var="session">
+            {
+                "secret": "5398"
+            }
+        </context>    
+        <q>5678</q>
+        <a>2 быка, 0 коров</a>
+        <q>Взять подсказку</q>
+        <a state = "/HintMenu"/>
+        <q>Вторая цифра</q>
+        <a>Вторая цифра: 3</a>
+        <q>5318</q>
+        <a>3 быка, 0 коров</a>
+        <q>Взять подсказку</q>
+        <a state = "/HintMenu"/>
+        <q>Вернуться</q>
+        <q>5398</q>
+        <a>Ты угадал за 3 хода! Использовано подсказок: 1</a>
         <a state = "/Start"/>
     </test-case>
     

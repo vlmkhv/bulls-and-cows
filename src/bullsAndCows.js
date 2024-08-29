@@ -18,7 +18,7 @@ function generateSecretNumber() {
     
     var firstDigitIndex = getRandomInt(9) + 1;
     var firstDigit = digits.splice(firstDigitIndex, 1)[0];
-    
+
     shuffle(digits);
     
     var remainingDigits = digits.slice(0, 3);
@@ -39,4 +39,17 @@ function checkGuess(secret, guess) {
     }
 
     return {bulls: bulls, cows: cows};
+}
+
+function getHint(secret, query) {
+    switch (query) {
+        case "Первая":
+            return secret.charAt(0);
+        case "Вторая":
+            return secret.charAt(1);
+        case "Третья":
+            return secret.charAt(2);
+        case "Четвертая":
+            return secret.charAt(3);
+    }
 }
